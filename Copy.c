@@ -5,8 +5,7 @@
 #include <locale.h>
 #include <ctype.h>
 #include <math.h>
-#include <conio.h> // Для getch() в Windows
-#include <windows.h> // Для работы с консолью в Windows
+#include <unistd.h>
 #include "List.h"
 
 // Создание копии
@@ -16,20 +15,30 @@ CyclicList copyList(CyclicList* original) {
 
     if (original->current == NULL) return newList;
 
-    // Копируем все элементы
     Node* temp = original->head;
     do {
         insertAfter(&newList, temp->data);
         temp = temp->next;
     } while (temp != original->head);
 
-    // Восстанавливаем позицию current
     int idx = getCurrentIndex(original);
     if (idx != -1) {
         Node* curr = newList.head;
         for (int i = 0; i < idx; i++) curr = curr->next;
         newList.current = curr;
     }
-
     return newList;
+}
+
+
+// Копирование текущего списка
+void copyCurrentList(ListManager* manager) {
+    if (manager->listCount < MAX_LISTS) {
+        manager->lists[manager->listCount] = copyList(&manager->lists[manager->currentIndex]);
+        manager->currentIndex = manager->listCount;
+        manager->listCount++;
+        printf("Копия текущего списка создана.\n");
+    } else {
+        printf("Достигнут предел максимального количества списков.\n");
+    }
 }

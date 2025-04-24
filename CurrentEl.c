@@ -5,8 +5,7 @@
 #include <locale.h>
 #include <ctype.h>
 #include <math.h>
-#include <conio.h> // Для getch() в Windows
-#include <windows.h> // Для работы с консолью в Windows
+#include <unistd.h>
 #include "List.h"
 
 

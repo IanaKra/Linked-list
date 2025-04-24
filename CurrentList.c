@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include <locale.h>
 #include <ctype.h>
 #include <math.h>
-#include <conio.h> // Для getch() в Windows
-#include <windows.h> // Для работы с консолью в Windows
+#include <unistd.h>
 #include "List.h"
 
 // Инициализация менеджера списков
@@ -27,8 +25,6 @@ void createNewList(ListManager* manager) {
     } else {
         printf("Достигнут предел максимального количества списков.\n");
     }
-    printf("\nОкно обновится через 3 секунды");
-    Sleep(3000); // Пауза 3с (3000 миллисекунд)
 }
 
 // Переход к следующему списку
@@ -40,7 +36,7 @@ void nextList(ListManager* manager) {
         printf("Это последний список.\n");
     }
     printf("\nОкно обновится через 3 секунды");
-    Sleep(3000); // Пауза 3с (3000 миллисекунд)
+    sleep(3000); // Пауза 3с (3000 миллисекунд)
 }
 
 // Переход к предыдущему списку
@@ -52,7 +48,7 @@ void previousList(ListManager* manager) {
         printf("Это первый список.\n");
     }
     printf("\nОкно обновится через 3 секунды");
-    Sleep(3000); // Пауза 3с (3000 миллисекунд)
+    sleep(3000); // Пауза 3с (3000 миллисекунд)
 }
 
 // Возврат к оригинальному списку

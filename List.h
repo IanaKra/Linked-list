@@ -1,58 +1,47 @@
 #ifndef LIST_H_INCLUDED
 #define LIST_H_INCLUDED
 
-// Определение структуры узла двусвязного циклического списка
 typedef struct Node {
-    int data;           // Значение, хранящееся в узле (целое число)
-    struct Node* prev;  // Указатель на предыдущий узел в списке
-    struct Node* next;  // Указатель на следующий узел в списке
+    int data;
+    struct Node* prev;
+    struct Node* next;
 } Node;
 
-// Определение структуры циклического списка
 typedef struct {
-    Node* current;      // Указатель на текущий выбранный узел
-    Node* head;         // Указатель на "голову" списка (обычно первый добавленный элемент)
-    int size;           // Количество элементов в списке (размер списка)
+    Node* current;
+    Node* head;
+    int size;
 } CyclicList;
 
-#define MAX_LISTS 100  // Максимальное количество списков, которые можно создать
+#define MAX_LISTS 100
 
 typedef struct {
-    CyclicList lists[MAX_LISTS]; // Массив всех списков
-    int currentIndex;            // Индекс текущего списка
-    int listCount;               // Количество созданных списков
+    CyclicList lists[MAX_LISTS];
+    int currentIndex;
+    int listCount;
 } ListManager;
 
-//List
-void initList(CyclicList* list);                    // Инициализация списка
-void freeList(CyclicList* list);                    // Освободить память списка
+void initList(CyclicList* list);
+void freeList(CyclicList* list);
 
-//CurrentList
-ListManager manager;                                // Менеджер для работы с несколькими списками
-void initListManager(ListManager* manager);         // Инициализация менеджера списков
-void createNewList(ListManager* manager);           // Создание нового списка
-void nextList(ListManager* manager);                // Переход к следующему списку
-void previousList(ListManager* manager);            // Переход к предыдущему списку
-void returnToOriginalList(ListManager* manager);    // Возврат к оригинальному списку
+void initListManager(ListManager* manager);
+void createNewList(ListManager* manager);
+void nextList(ListManager* manager);
+void previousList(ListManager* manager);
+void returnToOriginalList(ListManager* manager);
+void copyCurrentList(ListManager* manager);
 
+void insertAfter(CyclicList* list, int value);
+void insertBefore(CyclicList* list, int value);
+void removeCurrent(CyclicList* list);
 
-//Editor
-void insertAfter(CyclicList* list, int value);      // Вставка после текущего элемента
-void insertBefore(CyclicList* list, int value);     // Вставка перед текущим элементом
-void removeCurrent(CyclicList* list);               // Удаление текущего
-
-//Copy
-CyclicList copyList(CyclicList* original);          // Создание копии
-
-//CurrentEl
-int getCurrentIndex(CyclicList* list);              // Получение индекса текущего элемента
-void previous(CyclicList* list);                    // Изменение текущего элемента на предыдущий
-void next(CyclicList* list);                        // Изменение текущего элемента на следующий
-
-//Screen
-void displayList(CyclicList* list);                 // Вывод цикла
-void printStatus(ListManager* manager);             // Вывод текущего состояния
-void waitForKey();                                  // Ожидание нажатия клавиши
-void clearScreen();                                 // Очистка консоли
+CyclicList copyList(CyclicList* original);
+int getCurrentIndex(CyclicList* list);
+void previous(CyclicList* list);
+void next(CyclicList* list);
+void displayList(CyclicList* list);
+void printStatus(ListManager* manager);
+void waitForKey();
+void clearScreen();
 
 #endif // LIST_H_INCLUDED

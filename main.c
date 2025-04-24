@@ -5,8 +5,7 @@
 #include <locale.h>
 #include <ctype.h>
 #include <math.h>
-#include <conio.h> // Для getch() в Windows
-#include <windows.h> // Для работы с консолью в Windows
+#include <unistd.h>
 #include "List.h"
 
 /* 26.2
@@ -18,7 +17,8 @@ int main() {
     setlocale(LC_ALL, "Russian");
     printf("26.2\n");
 
-    initListManager(&manager); // Инициализация менеджера
+    ListManager manager;
+    initListManager(&manager);
 
     int choice, value;
 
@@ -31,11 +31,12 @@ int main() {
         printf("4. Вставить перед текущим\n");
         printf("5. Удалить текущий элемент\n");
         printf("6. Создать новый список\n");
-        printf("7. Следующий список\n");
-        printf("8. Предыдущий список\n");
-        printf("9. Вернуться к оригиналу\n");
-        printf("10. Вывести все элементы\n");
-        printf("11. Выход\n");
+        printf("7. Копировать текущий список\n"); // Добавили опцию для копирования
+        printf("8. Следующий список\n");
+        printf("9. Предыдущий список\n");
+        printf("10. Вернуться к оригиналу\n");
+        printf("11. Вывести все элементы\n");
+        printf("12. Выход\n");
 
         // Вывод текущего состояния
         printStatus(&manager);  // Используем новую функцию для отображения состояния
@@ -44,69 +45,59 @@ int main() {
         scanf("%d", &choice);
 
         switch(choice) {
-            case 1: {
+            case 1:
                 // Работа с текущим списком
                 displayList(&manager.lists[manager.currentIndex]);
                 next(&manager.lists[manager.currentIndex]);
                 break;
-            }
-            case 2: {
+            case 2:
                 // Работа с текущим списком
                 previous(&manager.lists[manager.currentIndex]);
                 break;
-            }
-            case 3: {
+            case 3:
                 printf("Введите значение: ");
                 scanf("%d", &value);
                 insertAfter(&manager.lists[manager.currentIndex], value);
                 break;
-            }
-            case 4: {
+            case 4:
                 printf("Введите значение: ");
                 scanf("%d", &value);
                 insertBefore(&manager.lists[manager.currentIndex], value);
                 break;
-            }
-            case 5: {
+            case 5:
                 removeCurrent(&manager.lists[manager.currentIndex]);
                 break;
-            }
-            case 6: {
-                createNewList(&manager); // Создание нового списка
+            case 6:
+                createNewList(&manager);    // Создание нового списка
                 break;
-            }
-            case 7: {
-                nextList(&manager); // Переход к следующему списку
+            case 7: // Обработка нового выбора
+                copyCurrentList(&manager);  // Переход к следующему списку
                 break;
-            }
-            case 8: {
-                previousList(&manager); // Переход к предыдущему списку
+            case 8:
+                nextList(&manager);  // Переход к предыдущему списку
                 break;
-            }
-            case 9: {
+            case 9:
+                previousList(&manager); // Возврат к оригинальному списку
+                break;
+            case 10:
                 returnToOriginalList(&manager); // Возврат к оригинальному списку
                 break;
-            }
-            case 10: {
-                // Печать элементов всех списков
+            case 11:
                 for (int i = 0; i < manager.listCount; i++) {
                     printf("Список %d: ", i + 1);
                     displayList(&manager.lists[i]);
                 }
-                printf("\nОкно обновится через 5 секунд");
-                Sleep(5000); // Пауза 5с (5000 миллисекунд)
+                printf("\nОкно обновится через 5 секунд\n");
+                sleep(5); // 5 секунд ожидания (Linux)
                 break;
-            }
-            case 11: {
+            case 12:
                 for (int i = 0; i < manager.listCount; i++) {
                     freeList(&manager.lists[i]);
                 }
                 printf("Выход...\n");
                 return 0;
-            }
-            default: {
+            default:
                 printf("Неверный выбор!\n");
-            }
         }
     }
 

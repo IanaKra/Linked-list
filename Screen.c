@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include <locale.h>
 #include <ctype.h>
 #include <math.h>
-#include <conio.h> // Для getch() в Windows
-#include <windows.h> // Для работы с консолью в Windows
+#include <unistd.h>
 #include "List.h"
 
 // Вывод цикла
@@ -59,9 +57,11 @@ void printStatus(ListManager* manager) {
 // Ожидание нажатия клавиши
 void waitForKey() {
     printf("\nНажмите любую клавишу для продолжения...");
-    getch();
+    getchar(); // Ожидаем нажатия клавиши
+    // Добавляем еще один getchar() для захвата символа новой строки
+    getchar();
 }
 // Очистка консоли
 void clearScreen() {
-    system("cls");
+    printf("\033[H\033[J"); // Очистка консоли
 }
